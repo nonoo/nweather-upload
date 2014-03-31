@@ -26,39 +26,39 @@ while read line; do
 	param2=`echo $line | cut -d' ' -f2`
 
 	if [ $param1 = "Ti" ]; then
-		curlparams="$curlparams -F 'temp-in=$param2'"
+		curlparams="$curlparams -F \"temp-in=$param2\"\n"
 		numreadparams=$((numreadparams + 1))
 	fi
 	if [ $param1 = "To" ]; then
-		curlparams="$curlparams -F 'temp-out=$param2'"
+		curlparams="$curlparams -F \"temp-out=$param2\"\n"
 		numreadparams=$((numreadparams + 1))
 	fi
 	if [ $param1 = "RHi" ]; then
-		curlparams="$curlparams -F 'hum-in=$param2'"
+		curlparams="$curlparams -F \"hum-in=$param2\"\n"
 		numreadparams=$((numreadparams + 1))
 	fi
 	if [ $param1 = "RHo" ]; then
-		curlparams="$curlparams -F 'hum-out=$param2'"
+		curlparams="$curlparams -F \"hum-out=$param2\"\n"
 		numreadparams=$((numreadparams + 1))
 	fi
 	if [ $param1 = "RP" ]; then
-		curlparams="$curlparams -F 'pres=$param2'"
+		curlparams="$curlparams -F \"pres=$param2\"\n"
 		numreadparams=$((numreadparams + 1))
 	fi
 	if [ $param1 = "DP" ]; then
-		curlparams="$curlparams -F 'dewpoint=$param2'"
+		curlparams="$curlparams -F \"dewpoint=$param2\"\n"
 		numreadparams=$((numreadparams + 1))
 	fi
 	if [ $param1 = "Rtot" ]; then
-		curlparams="$curlparams -F 'rain=$param2'"
+		curlparams="$curlparams -F \"rain=$param2\"\n"
 		numreadparams=$((numreadparams + 1))
 	fi
 	if [ $param1 = "WS" ]; then
-		curlparams="$curlparams -F 'windspeed=$param2'"
+		curlparams="$curlparams -F \"windspeed=$param2\"\n"
 		numreadparams=$((numreadparams + 1))
 	fi
 	if [ $param1 = "DIRtext" ]; then
-		curlparams="$curlparams -F 'winddir=$param2'"
+		curlparams="$curlparams -F \"winddir=$param2\"\n"
 		numreadparams=$((numreadparams + 1))
 	fi
 done
@@ -69,8 +69,15 @@ if [ $numreadparams -le 1 ]; then
 	exit 1
 fi
 
-curlparams="$curlparams -F 'date=`date +%s`'"
+curlparams="$curlparams -F \"date=`date +%s`\"\n"
+curlparams="$curlparams $uploadurl\n"
 
-echo curl $curlparams $uploadurl
+result=`echo $curlparams | xargs curl -s 2>/dev/null`
+
+if [ "$result" != "ok" ]; then
+	echo "upload error: $result"
+else
+	echo "upload ok"
+fi
 
 checklogsize
