@@ -1,0 +1,4 @@
+uploadurl=http://
+
+logfile=/var/log/nweather.log
+nlogrotatepath=/opt/nlogrotate
