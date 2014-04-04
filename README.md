@@ -2,7 +2,8 @@ nweather-upload
 ===============
 
 This script can be used to upload a WS-2300 (or compatible) weather station's
-data acquired with fetch2300.
+data acquired with fetch2300. I made a [Wordpress plugin](https://github.com/nonoo/nweather-wordpress-plugin)
+to show the collected data on a Wordpress page.
 
 #### Usage
 
